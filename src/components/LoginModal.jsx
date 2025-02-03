@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 
@@ -7,7 +7,13 @@ const LoginModal = ({
   setLoginModalOpen,
   loginOrSignUp,
   setLoginOrSignUp,
+  registerUserWithEmail,
+  loginUserWithEmail,
+  signInAsGuest,
 }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div
       className={`w-full h-screen fixed top-0 left-0 bg-black/75 flex justify-center items-center ${
@@ -28,6 +34,7 @@ const LoginModal = ({
           className={`w-full h-10 text-white bg-[#3a579d] text-4 flex justify-center items-center relative rounded-sm cursor-pointer hover:bg-[#313b68] duration-200 ${
             loginOrSignUp === "login" ? "" : "hidden"
           }`}
+          onClick={() => signInAsGuest()}
         >
           <FaUser className="text-[24px] absolute left-2" />
           Login as Guest
@@ -48,18 +55,33 @@ const LoginModal = ({
             type="email"
             placeholder="Email Address"
             className="w-full h-10 border-[2px] border-[#bac8ce] rounded-sm text-[13px] text-[#394547] px-3 focus:border-[#2bd97c] outline-none"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
           <input
-            type="email"
-            placeholder="Email Address"
+            type="password"
+            placeholder="Password"
             className="w-full h-10 border-[2px] border-[#bac8ce] rounded-sm text-[13px] text-[#394547] px-3 focus:border-[#2bd97c] outline-none"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
           />
-          <button
-            type="submit"
-            className="w-full h-[40px] bg-[#2bd97c] text-[#032b41] rounded-[4px] hover:bg-[#20ba68] cursor-pointer duration-200"
-          >
-            Login
-          </button>
+          {loginOrSignUp === "login" ? (
+            <button
+              type="submit"
+              className="w-full h-[40px] bg-[#2bd97c] text-[#032b41] rounded-[4px] hover:bg-[#20ba68] cursor-pointer duration-200"
+              onClick={(e) => loginUserWithEmail(e, email, password)}
+            >
+              Login
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="w-full h-[40px] bg-[#2bd97c] text-[#032b41] rounded-[4px] hover:bg-[#20ba68] cursor-pointer duration-200"
+              onClick={(e) => registerUserWithEmail(e, email, password)}
+            >
+              Sign up
+            </button>
+          )}
         </form>
         {loginOrSignUp === "login" ? (
           <h2 className="text-[#032b41] text-[15px] mb-2">

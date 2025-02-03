@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiFillAudio, AiFillBulb, AiFillFileText } from "react-icons/ai";
 import { BiCrown } from "react-icons/bi";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
 import { RiLeafLine } from "react-icons/ri";
 import Logo from "../assets/logo.png";
 import LandingImg from "../assets/landing.png";
+import { useNavigate } from "react-router-dom";
 
-const Home = ({ setLoginModalOpen }) => {
+const Home = ({ setLoginModalOpen, isSignedIn, setHideNavBar }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isSignedIn) {
+      navigate("/for-you");
+      setHideNavBar(false);
+    }
+  }, [isSignedIn]);
+
+  useEffect(() => {
+    setHideNavBar(true);
+  }, []);
+
   return (
     <div className="w-full">
       {/* ------Nav Section------ */}
@@ -69,7 +83,7 @@ const Home = ({ setLoginModalOpen }) => {
         {/* ------Feature Icons------ */}
 
         <div className="mb-[96px]">
-          <h2 className="text-[32px] font-bold leading-[50px] text-[#032b41] mb-8 text-center max-md:text-[24px]">
+          <h2 className="text-[32px] font-bold leading-tight text-[#032b41] mb-8 text-center max-md:text-[24px]">
             Understand books in a few minutes
           </h2>
           <div className="grid grid-cols-3 gap-10 max-md:grid-cols-1">
