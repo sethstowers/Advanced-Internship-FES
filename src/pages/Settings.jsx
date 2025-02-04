@@ -6,7 +6,7 @@ const Settings = ({setNavActiveLink}) => {
       }, []);
   return (
     <div>
-    <h2 className="text-center text-5xl pt-10">Settings</h2>
+    <h2 className="text-center text-5xl pt-[120px]">Settings</h2>
   </div>
   )
 }

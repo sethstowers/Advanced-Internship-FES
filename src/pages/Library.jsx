@@ -7,7 +7,7 @@ const Library = ({ setNavActiveLink }) => {
 
   return (
     <div>
-    <h2 className="text-center text-5xl pt-10">Library</h2>
+    <h2 className="text-center text-5xl pt-[120px]">Library</h2>
   </div>
   )
 };

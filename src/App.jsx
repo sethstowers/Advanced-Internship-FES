@@ -13,8 +13,10 @@ import {
 import { auth } from "./firebase";
 import ForYou from "./pages/ForYou";
 import Navbar from "./components/Navbar";
-import Library from './pages/Library'
+import Library from "./pages/Library";
 import Settings from "./pages/Settings";
+import Book from "./pages/Book";
+import Player from "./pages/Player";
 
 function App() {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
@@ -22,13 +24,12 @@ function App() {
   const [user, setUser] = useState({});
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [navActiveLink, setNavActiveLink] = useState('for-you')
-  const [hideNavBar, setHideNavBar] = useState(false)
+  const [navActiveLink, setNavActiveLink] = useState("for-you");
+  const [hideNavBar, setHideNavBar] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setLoading(false);
-      console.log(user);
       if (user) {
         setUser(user);
         setIsSignedIn(true);
@@ -84,13 +85,14 @@ function App() {
   };
 
   return (
-    <>
+    <div className="overflow-x-hidden">
       <Router>
-        <Navbar 
-        hideNavBar={hideNavBar}
-        logout={logout}
-        navActiveLink={navActiveLink}
-
+        <Navbar
+          hideNavBar={hideNavBar}
+          logout={logout}
+          navActiveLink={navActiveLink}
+          isSignedIn={isSignedIn}
+          setLoginModalOpen={setLoginModalOpen}
         />
         <LoginModal
           setLoginModalOpen={setLoginModalOpen}
@@ -114,7 +116,14 @@ function App() {
           />
           <Route
             path="/for-you"
-            element={<ForYou user={user} logout={logout} setNavActiveLink={setNavActiveLink} />}
+            element={
+              <ForYou
+                user={user}
+                logout={logout}
+                setNavActiveLink={setNavActiveLink}
+                isSignedIn={isSignedIn}
+              />
+            }
           />
           <Route
             path="/library"
@@ -124,9 +133,11 @@ function App() {
             path="/settings"
             element={<Settings setNavActiveLink={setNavActiveLink} />}
           />
+          <Route path="/book/:id" element={<Book />} />
+          <Route path="/player/:id" element={<Player />} />
         </Routes>
       </Router>
-    </>
+    </div>
   );
 }
 

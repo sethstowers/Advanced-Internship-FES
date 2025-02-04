@@ -16,7 +16,7 @@ const LoginModal = ({
 
   return (
     <div
-      className={`w-full h-screen fixed top-0 left-0 bg-black/75 flex justify-center items-center ${
+      className={`w-full h-screen fixed top-0 left-0 bg-black/75 flex justify-center items-center z-50 ${
         loginModalOpen ? "" : "hidden"
       }`}
     >
