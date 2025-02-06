@@ -6,6 +6,105 @@
   font-family: "Roboto", sans-serif;
 }
 
+.audio__progress--bar {
+  --bar-bg: #8d8d8d;
+  --seek-before-width: 0;
+  --seek-before-color: #2bd97c;
+  --knobby: #fff;
+  --selectedKnobby: #26c9c3;
+
+  appearance: none;
+  background: var(--bar-bg);
+  border-radius: 8px;
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  height: 4px;
+  outline: none;
+}
+
+/* Safari progress bar */
+
+.audio__progress--bar::-webkit-slider-runnable-track {
+  background: var(--bar-bg);
+  border-radius: 8px;
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  height: 4px;
+  outline: none;
+}
+
+/* Firefox progress bar */
+
+.audio__progress--bar::-moz-range-track {
+  background: var(--bar-bg);
+  border-radius: 8px;
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  height: 4px;
+  outline: none;
+}
+
+.audio__progress--bar::-moz-focus-outer {
+  border: 0;
+}
+
+/* seek before bar chrome-safari */
+
+.audio__progress--bar::before {
+  content: '';
+  height: 4px;
+  width: var(--seek-before-width);
+  background-color: var(--seek-before-color);
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+/* seek before bar firefox */
+
+.audio__progress--bar::-moz-range-progress {
+  background-color: var(--seek-before-color);
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  height: 4px;
+}
+
+/* knobby chrome-safari */
+
+.audio__progress--bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--knobby);
+  cursor: pointer;
+  position: relative;
+  margin: -4px 0 0 0;
+  z-index: 3;
+}
+
+/* knobby firefox*/
+
+.audio__progress--bar::-moz-range-thumb {
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  border: transparent;
+  background-color: var(--knobby);
+  cursor: pointer;
+  position: relative;
+  z-index: 3;
+}
+
+
+
+
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {

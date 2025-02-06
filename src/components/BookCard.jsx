@@ -57,7 +57,7 @@ const BookCard = ({ book, isSignedIn }) => {
         Premium
       </div>
       <div
-        className="px-3 pt-8 pb-3 min-w-[190px] hover:bg-gray-100 cursor-pointer"
+        className="px-3 pt-8 pb-3 min-w-[190px] h-full hover:bg-gray-100 cursor-pointer"
         key={book.title}
         onClick={() => navigate(`/book/${book.id}`)}
       >

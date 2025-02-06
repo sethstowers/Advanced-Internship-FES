@@ -26,6 +26,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [navActiveLink, setNavActiveLink] = useState("for-you");
   const [hideNavBar, setHideNavBar] = useState(false);
+  const [playerFontSize, setPlayerFontSize] = useState('16')
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -93,6 +95,10 @@ function App() {
           navActiveLink={navActiveLink}
           isSignedIn={isSignedIn}
           setLoginModalOpen={setLoginModalOpen}
+          setPlayerFontSize={setPlayerFontSize}
+          playerFontSize={playerFontSize}
+          mobileNavOpen={mobileNavOpen}
+          setMobileNavOpen={setMobileNavOpen}
         />
         <LoginModal
           setLoginModalOpen={setLoginModalOpen}
@@ -122,6 +128,8 @@ function App() {
                 logout={logout}
                 setNavActiveLink={setNavActiveLink}
                 isSignedIn={isSignedIn}
+                setMobileNavOpen={setMobileNavOpen}
+                mobileNavOpen={mobileNavOpen}
               />
             }
           />
@@ -131,10 +139,10 @@ function App() {
           />
           <Route
             path="/settings"
-            element={<Settings setNavActiveLink={setNavActiveLink} />}
+            element={<Settings setNavActiveLink={setNavActiveLink} user={user} isSignedIn={isSignedIn} setLoginModalOpen={setLoginModalOpen} setMobileNavOpen={setMobileNavOpen}/>}
           />
-          <Route path="/book/:id" element={<Book />} />
-          <Route path="/player/:id" element={<Player />} />
+          <Route path="/book/:id" element={<Book setNavActiveLink={setNavActiveLink} setMobileNavOpen={setMobileNavOpen}/>} />
+          <Route path="/player/:id" element={<Player setNavActiveLink={setNavActiveLink} playerFontSize={playerFontSize} setMobileNavOpen={setMobileNavOpen}/>} />
         </Routes>
       </Router>
     </div>

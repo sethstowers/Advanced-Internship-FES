@@ -12,8 +12,9 @@ import { IoBookOutline } from "react-icons/io5";
 import { SlBookOpen } from "react-icons/sl";
 import { TbMicrophone } from "react-icons/tb";
 import { useNavigate, useParams } from "react-router-dom";
+import SearchBar from "../components/SearchBar";
 
-const Book = () => {
+const Book = ({setNavActiveLink, setMobileNavOpen}) => {
   const { id } = useParams();
   const [bookInfo, setBookInfo] = useState({});
   const [audioDuration, setAudioDuration] = useState("");
@@ -30,6 +31,7 @@ const Book = () => {
 
   useEffect(() => {
     getBookInfo();
+    setNavActiveLink('book')
   }, []);
 
   useEffect(() => {
@@ -72,27 +74,28 @@ const Book = () => {
   }, [bookInfo]);
 
   return (
-    <div className="pt-[120px] ml-[200px] w-[calc(100vw-200px)] pb-10">
-      <div className="w-full max-w-[1070px] mx-auto px-6 flex gap-4">
+    <div className="ml-[196px] max-md:ml-0 max-md:w-full w-[calc(100vw-200px)]">
+      <SearchBar setMobileNavOpen={setMobileNavOpen}/>
+      <div className="w-full max-w-[1070px] mx-auto py-10 px-6 flex max-[1000px]:flex-col-reverse gap-4 max-[1000px]:gap-8">
         <div className="flex-1 ">
           {loading ? (
             <div className="bg-[#d4d8d9] h-[40px] w-[70%] mb-4 rounded-sm"></div>
           ) : (
-            <h1 className="text-[32px] text-[#032b41] font-bold mb-4 leading-tight">
+            <h1 className="text-[32px] max-md:text-[24px] text-[#032b41] font-bold mb-4 leading-tight">
               {bookInfo.title}
             </h1>
           )}
           {loading ? (
             <div className="bg-[#d4d8d9] h-[32px] w-[40%] mb-4 rounded-sm"></div>
           ) : (
-            <h3 className="text-[16px] text-[#032b41] font-bold mb-4 leading-tight">
+            <h3 className="text-[16px] max-md:text-[14px] text-[#032b41] font-bold mb-4 leading-tight">
               {bookInfo.author}
             </h3>
           )}
           {loading ? (
             <div className="bg-[#d4d8d9] h-[32px] w-[80%] mb-4 rounded-sm"></div>
           ) : (
-            <h2 className="text-[20px] text-[#032b41] font-light mb-4 leading-tight">
+            <h2 className="text-[20px] max-md:text-[18px] text-[#032b41] font-light mb-4 leading-tight">
               {bookInfo.subTitle}
             </h2>
           )}
@@ -158,7 +161,7 @@ const Book = () => {
           ) : (
             <div className="flex items-center text-[#0365f2] gap-2 mb-10 cursor-pointer hover:text-[#0317f2]">
               <FaBookmark className="text-[20px]" />
-              <h2 className="text-[18px] font-medium ">
+              <h2 className="text-[18px] max-md:text-[16px] font-medium ">
                 Add title to My Library
               </h2>
             </div>
@@ -173,7 +176,7 @@ const Book = () => {
               </h2>
               <div className="flex gap-4 mb-4">
                 {bookInfo?.tags?.map((tag) => (
-                  <button className="bg-[#f1f6f4] h-[48px] text-[16px] text-[#032b41] font-medium leading-tight px-4 rounded-sm">
+                  <button className="bg-[#f1f6f4] h-[48px] text-[16px] max-md:text-[14px] text-[#032b41] font-medium leading-tight px-4 rounded-sm">
                     {tag}
                   </button>
                 ))}
@@ -184,7 +187,7 @@ const Book = () => {
           {loading ? (
             <div className="bg-[#d4d8d9] h-[220px] w-[100%] mb-4 rounded-sm"></div>
           ) : (
-            <p className="text-[16px] text-[#032b41] mb-4">
+            <p className="text-[16px] max-md:text-[14px] text-[#032b41] mb-4">
               {bookInfo.bookDescription}
             </p>
           )}
@@ -195,15 +198,15 @@ const Book = () => {
               <h2 className="text-[18px] text-[#032b41] font-bold leading-tight mb-4">
                 About the author
               </h2>
-              <p className="text-[16px] text-[#032b41] mb-4">
+              <p className="text-[16px] max-md:text-[14px] text-[#032b41]">
                 {bookInfo.authorDescription}
               </p>
             </>
           )}
         </div>
-        <div className="w-[300px]">
+        <div className="w-[300px] max-[1000px]:w-full max-[1000px]:flex max-[1000px]:justify-center">
           {loading ? (
-            <div className="bg-[#d4d8d9] h-[300px] w-[100%] mb-4 rounded-sm"></div>
+            <div className="bg-[#d4d8d9] h-[300px] w-[300px] mb-4 rounded-sm"></div>
           ) : (
             <img src={bookInfo.imageLink} alt="" className="w-[300px]" />
           )}
