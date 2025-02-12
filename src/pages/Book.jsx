@@ -39,7 +39,7 @@ const Book = ({
     const { data } = await axios.get(
       `https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`
     );
-    console.log(data);
+ 
     setBookInfo(data);
   }
 
@@ -53,7 +53,7 @@ const Book = ({
     isBookInLibrary(bookInfo?.id).then((value) => {
       setBookInLibrary(value);
     });
-  }, [bookInfo.id]);
+  }, [bookInfo]);
 
   useEffect(() => {
     const fetchAudioDuration = async () => {

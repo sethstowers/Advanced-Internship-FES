@@ -270,6 +270,7 @@ function App() {
                 userSubscriptionStatus={userSubscriptionStatus}
                 setHideNavBar={setHideNavBar}
                 manageSubscription={manageSubscription}
+                signedInAsGuest={signedInAsGuest}
               />
             }
           />
@@ -287,6 +288,7 @@ function App() {
                 userSubscriptionStatus={userSubscriptionStatus}
                 setLoginModalOpen={setLoginModalOpen}
                 setHideNavBar={setHideNavBar}
+                
               />
             }
           />
@@ -310,6 +312,7 @@ function App() {
                 loading={loading}
                 userSubscriptionStatus={userSubscriptionStatus}
                 isSignedIn={isSignedIn}
+                signedInAsGuest={signedInAsGuest}
               />
             }
           />

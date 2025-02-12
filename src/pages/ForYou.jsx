@@ -1,18 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { CiStar } from "react-icons/ci";
-import {
-  FaArrowLeft,
-  FaArrowRight,
-  FaPlay,
-  FaRegClock,
-  FaRegStar,
-} from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import SearchBar from "../components/SearchBar";
 
-const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNavOpen, setHideNavBar, userSubscriptionStatus }) => {
+const ForYou = ({
+  setNavActiveLink,
+  setMobileNavOpen,
+  setHideNavBar,
+  userSubscriptionStatus,
+}) => {
   const [selectedBook, setSelectedBook] = useState({});
   const [recommendedBooks, setRecommendedBooks] = useState([]);
   const [suggestedBooks, setSuggestedBooks] = useState([]);
@@ -35,7 +33,6 @@ const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNa
     );
     setRecommendedBooks(data);
     setLoading(false);
-    console.log(data[3].audioLink);
   }
 
   async function getSuggestedBooks() {
@@ -54,14 +51,14 @@ const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNa
   }
 
   useEffect(() => {
-    setHideNavBar(false)
+    setHideNavBar(false);
     setNavActiveLink("for-you");
     getAllBooks();
   }, []);
 
   return (
     <div className="ml-[196px] max-md:ml-0 max-md:w-full w-[calc(100vw-200px)]">
-      <SearchBar setMobileNavOpen={setMobileNavOpen}/>
+      <SearchBar setMobileNavOpen={setMobileNavOpen} />
       <div className="w-full max-w-[1070px] pt-10 mx-auto px-6">
         <h2 className="text-[22px] text-[#032b41] font-bold mb-4">
           Selected Just for You
@@ -132,7 +129,11 @@ const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNa
               className="w-[100%] h-full flex gap-4 overflow-x-scroll scroll no-scrollbar"
             >
               {recommendedBooks.map((book) => (
-                <BookCard book={book} key={book.id} userSubscriptionStatus={userSubscriptionStatus} />
+                <BookCard
+                  book={book}
+                  key={book.id}
+                  userSubscriptionStatus={userSubscriptionStatus}
+                />
               ))}
             </div>
           </div>
@@ -171,7 +172,11 @@ const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNa
               className="w-[100%] h-full flex gap-4 overflow-x-scroll scroll no-scrollbar"
             >
               {suggestedBooks.map((book) => (
-                <BookCard book={book} key={book.id} userSubscriptionStatus={userSubscriptionStatus} />
+                <BookCard
+                  book={book}
+                  key={book.id}
+                  userSubscriptionStatus={userSubscriptionStatus}
+                />
               ))}
             </div>
           </div>

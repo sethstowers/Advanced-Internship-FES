@@ -39,7 +39,7 @@ const Player = ({ setNavActiveLink, playerFontSize, setMobileNavOpen}) => {
     const { data } = await axios.get(
       `https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`
     );
-    console.log(data);
+
     setBookInfo(data);
     setLoading(false);
   }

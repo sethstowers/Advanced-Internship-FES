@@ -12,7 +12,7 @@ const Settings = ({
   userSubscriptionName,
   userSubscriptionStatus,
   setHideNavBar,
-  manageSubscription
+  signedInAsGuest
 }) => {
 
   const navigate = useNavigate()
@@ -36,16 +36,23 @@ const Settings = ({
                   Your Subscription plan
                 </h1>
                 <h2 className=" text-[16px] text-[#032b41] leading-tight">
-                  {userSubscriptionName === "sub_1QrUIpI3MRe4FcEwljDWGFlS"
+                  {userSubscriptionName === "prod_Rl0GD5O4EnbZNr"
                     ? "Premium "
-                    : userSubscriptionName === "sub_1QrTd3I3MRe4FcEwo5CSuMzf"
+                    : userSubscriptionName === "prod_Rkwn3gcqUIdIgz"
                     ? "Premium Plus"
                     : "Basic"}
                 </h2>
 
                 {userSubscriptionStatus ? 
                 <></>
-                  : (
+                  : signedInAsGuest ? 
+                  <button className="w-[200px] h-[40px] bg-[#2bd97c] text-[#032b41] rounded-[4px] hover:bg-[#20ba68] cursor-pointer duration-200"
+                  onClick={() => setLoginModalOpen(true)}
+                  >
+                    Sign up to Upgrade
+                  </button>
+                  :
+                  (
                   <button className="w-[200px] h-[40px] bg-[#2bd97c] text-[#032b41] rounded-[4px] hover:bg-[#20ba68] cursor-pointer duration-200"
                   onClick={() => navigate('/choose-plan')}
                   >

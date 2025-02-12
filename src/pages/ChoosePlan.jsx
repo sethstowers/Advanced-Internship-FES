@@ -6,6 +6,9 @@ import { FaHandshake } from "react-icons/fa";
 import { TbLoader2 } from "react-icons/tb";
 import Loader from "../assets/loader.svg";
 import { useNavigate } from "react-router-dom";
+import Accordion from "../components/Accordion";
+import { accordion } from "../constants";
+import Footer from "../components/Footer";
 
 const ChoosePlan = ({
   setHideNavBar,
@@ -13,53 +16,54 @@ const ChoosePlan = ({
   upgradeToPremium,
   loading,
   userSubscriptionStatus,
-  isSignedIn
+  isSignedIn,
+  signedInAsGuest
 }) => {
   const [selectedPlan, setSelectedPlan] = useState("premium-plus");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     setHideNavBar(true);
   }, []);
 
   useEffect(() => {
-    if(userSubscriptionStatus || !isSignedIn) {
-      navigate('/for-you')
+    if (userSubscriptionStatus || !isSignedIn || signedInAsGuest) {
+      navigate("/for-you");
     }
-  }, [userSubscriptionStatus])
+  }, [userSubscriptionStatus]);
 
   return (
     <div className="w-full">
-      <div className="h-[540px] max-w-full flex">
-        <div className="bg-[#032b41] h-full w-full rounded-bl-[250px] rounded-br-[250px]">
+      <div className=" max-w-full flex">
+        <div className="bg-[#032b41] h-full w-full rounded-bl-[250px] rounded-br-[250px] max-md:rounded-none">
           <div className="h-full w-full max-w-[1000px] mx-auto pt-[48px] px-6 flex flex-col items-center">
-            <h2 className="text-white text-[48px] font-bold text-center max-w-[940px] leading-tight mb-10">
+            <h2 className="text-white text-[48px] font-bold text-center max-w-[940px] leading-tight mb-10 max-md:text-[26px] max-md:mb-8">
               Get unlimited access to many amazing books to read
             </h2>
-            <h2 className="text-white text-[20px] text-center max-w-[940px] leading-tight mb-8">
+            <h2 className="text-white text-[20px] text-center max-w-[940px] leading-tight mb-8 max-md:text-[16px]">
               Turn ordinary moments into amazing learning opportunities
             </h2>
             <img src={PricingImg} className="w-[330px] rounded-t-full" alt="" />
           </div>
         </div>
       </div>
-      <div className="w-[1070px] px-6 mx-auto pt-16 ">
-        <div className="flex gap-6 justify-center mb-14">
-          <div className="flex flex-col items-center max-w-[250px]">
+      <div className="w-full max-w-[1070px] px-6 mx-auto pt-16 pb-10">
+        <div className="flex gap-6 justify-center mb-14 max-md:flex-col max-md:items-center">
+          <div className="flex flex-col items-center max-w-[250px] max-md:max-w-none">
             <AiFillFileText className="text-[#032b41] text-[60px] mb-[12px]" />
             <h2 className="text-[16px] text-[#394547] text-center">
               <span className="font-bold">Key ideas in few mins</span> with many
               books to read
             </h2>
           </div>
-          <div className="flex flex-col items-center max-w-[250px]">
+          <div className="flex flex-col items-center max-w-[250px] max-md:max-w-none">
             <RiPlantFill className="text-[#032b41] text-[60px] mb-[12px]" />
             <h2 className="text-[16px] text-[#394547] text-center">
               <span className="font-bold">3 million</span> people growing with
               Summarist everyday
             </h2>
           </div>
-          <div className="flex flex-col items-center max-w-[250px]">
+          <div className="flex flex-col items-center max-w-[250px] max-md:max-w-none">
             <FaHandshake className="text-[#032b41] text-[60px] mb-[12px]" />
             <h2 className="text-[16px] text-[#394547] text-center">
               <span className="font-bold">Precise recommendations</span>{" "}
@@ -89,13 +93,13 @@ const ChoosePlan = ({
               </div>
             </div>
             <div>
-              <h2 className="text-[#032b41] text-[18px] mb-2 font-semibold leading-tight">
+              <h2 className="text-[#032b41] text-[18px] mb-2 font-semibold leading-tight max-md:text-[16px]">
                 Premium Plus Yearly
               </h2>
-              <h1 className="text-[#032b41] text-[24px] mb-2 font-bold leading-tight">
+              <h1 className="text-[#032b41] text-[24px] mb-2 font-bold leading-tight max-md:text-[20px]">
                 $99.99/year
               </h1>
-              <p className="text-[#6b757b] text-[14px] leading-tight">
+              <p className="text-[#6b757b] text-[14px] leading-tight max-md:text-[12px]">
                 7-day free trial included
               </p>
             </div>
@@ -125,13 +129,13 @@ const ChoosePlan = ({
               </div>
             </div>
             <div>
-              <h2 className="text-[#032b41] text-[18px] mb-2 font-semibold leading-tight">
+              <h2 className="text-[#032b41] text-[18px] mb-2 font-semibold leading-tight max-md:text-[16px]">
                 Premium Monthly
               </h2>
-              <h1 className="text-[#032b41] text-[24px] mb-2 font-bold leading-tight">
+              <h1 className="text-[#032b41] text-[24px] mb-2 font-bold leading-tight max-md:text-[20px]">
                 $9.99/month
               </h1>
-              <p className="text-[#6b757b] text-[14px] leading-tight">
+              <p className="text-[#6b757b] text-[14px] leading-tight max-md:text-[12px]">
                 No trial included
               </p>
             </div>
@@ -173,7 +177,17 @@ const ChoosePlan = ({
             )}
           </div>
         </div>
+        <div>
+          {accordion.map((elem, index) => (
+            <Accordion
+              key={index}
+              title={elem.title}
+              paragraph={elem.paragraph}
+            />
+          ))}
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -16,7 +16,7 @@ const SearchBar = ({ setMobileNavOpen, mobileNavOpen }) => {
     const res = await axios.get(
       `https://us-central1-summaristt.cloudfunctions.net/getBooksByAuthorOrTitle?search=${searchValue}`
     );
-    console.log(res.data);
+  
     setSearchResults(res.data);
     setTimeout(() => {
       setLoading(false);

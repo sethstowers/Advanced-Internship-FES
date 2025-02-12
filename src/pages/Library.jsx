@@ -12,7 +12,6 @@ const Library = ({
   isSignedIn,
   setLoginModalOpen,
   userSubscriptionStatus,
-  signedInAsGuest,
 }) => {
   const [booksArray, setBooksArray] = useState([]);
   const [booksInfo, setBooksInfo] = useState([]);
@@ -97,9 +96,13 @@ const Library = ({
                   </div>
                 ) : (
                   <div className="w-[360px] h-[112px] bg-[#f1f6f4] rounded-xl p-8 flex flex-col items-center gap-2 mx-auto">
-                    <h1 className="text-[#042330] text-[18px] leading-tight font-semibold">Save your favorite books!</h1>
-                    <h2 className="text-[#394547] text-[16px] leading-tight ">When you save a book, it will appear here.</h2>
-                    </div>
+                    <h1 className="text-[#042330] text-[18px] leading-tight font-semibold">
+                      Save your favorite books!
+                    </h1>
+                    <h2 className="text-[#394547] text-[16px] leading-tight ">
+                      When you save a book, it will appear here.
+                    </h2>
+                  </div>
                 )}
               </div>
             )}

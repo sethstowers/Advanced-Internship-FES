@@ -15,13 +15,13 @@ export const getPremiumStatus = async (app) => {
         const unsubscribe = onSnapshot(
           q,
           (snapshot) => {
-            // In this implementation we only expect one active or trialing subscription to exist.
+            // In this implementation we only expect one active or trialing subscription to exist. snapshot.docs[0]._document.data.value.mapValue.fields.items.arrayValue.values[0].mapValue.fields.subscription.stringValue
             console.log();
             if (snapshot.docs.length === 0) {
-            //   console.log("No active or trialing subscriptions found");
+             
               resolve(false);
             } else {
-            //   console.log("Active or trialing subscription found", snapshot.docs[0]._document.data.value.mapValue.fields.items.arrayValue.values[0].mapValue.fields.subscription.stringValue);
+              
               resolve(true);
             }
             unsubscribe();
@@ -42,9 +42,9 @@ export const getSubscriptionName = async (app) => {
 
      const subData = docs.map((elem) => ({...elem.data()}))
 
-    //  console.log(subData[0].items[0].subscription)
+  
 
-     return(subData[0].items[0].subscription)
+     return(subData[0].items[0].plan.product)
 
 
 }
