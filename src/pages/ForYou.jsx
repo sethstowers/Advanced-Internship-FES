@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import SearchBar from "../components/SearchBar";
 
-const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNavOpen }) => {
+const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNavOpen, setHideNavBar, userSubscriptionStatus }) => {
   const [selectedBook, setSelectedBook] = useState({});
   const [recommendedBooks, setRecommendedBooks] = useState([]);
   const [suggestedBooks, setSuggestedBooks] = useState([]);
@@ -54,6 +54,7 @@ const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNa
   }
 
   useEffect(() => {
+    setHideNavBar(false)
     setNavActiveLink("for-you");
     getAllBooks();
   }, []);
@@ -86,7 +87,7 @@ const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNa
                   {selectedBook.author}
                 </p>
                 <div className="flex items-center gap-2">
-                  <button className="bg-black rounded-full w-10 h-10 flex justify-center items-center">
+                  <button className="bg-black rounded-full w-10 h-10 flex justify-center items-center cursor-pointer">
                     <FaPlay className="text-white text-[16px] ml-[2px]" />
                   </button>
                   <p className="text-[14px] text-[#032b41] font-medium">
@@ -131,7 +132,7 @@ const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNa
               className="w-[100%] h-full flex gap-4 overflow-x-scroll scroll no-scrollbar"
             >
               {recommendedBooks.map((book) => (
-                <BookCard book={book} key={book.id} isSignedIn={isSignedIn} />
+                <BookCard book={book} key={book.id} userSubscriptionStatus={userSubscriptionStatus} />
               ))}
             </div>
           </div>
@@ -170,7 +171,7 @@ const ForYou = ({ user, setNavActiveLink, isSignedIn, setMobileNavOpen, mobileNa
               className="w-[100%] h-full flex gap-4 overflow-x-scroll scroll no-scrollbar"
             >
               {suggestedBooks.map((book) => (
-                <BookCard book={book} key={book.id} isSignedIn={isSignedIn} />
+                <BookCard book={book} key={book.id} userSubscriptionStatus={userSubscriptionStatus} />
               ))}
             </div>
           </div>

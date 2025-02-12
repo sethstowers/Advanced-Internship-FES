@@ -8,18 +8,32 @@ import {
 } from "react-icons/fa";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { IoMdBook } from "react-icons/io";
-import { IoBookOutline } from "react-icons/io5";
+import { IoBookmarkOutline, IoBookOutline } from "react-icons/io5";
 import { SlBookOpen } from "react-icons/sl";
 import { TbMicrophone } from "react-icons/tb";
 import { useNavigate, useParams } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
+import { CiBookmark } from "react-icons/ci";
 
-const Book = ({setNavActiveLink, setMobileNavOpen}) => {
+const Book = ({
+  setNavActiveLink,
+  setMobileNavOpen,
+  addBookToLibrary,
+  isBookInLibrary,
+  user,
+  removeBookFromLibrary,
+  isSignedIn,
+  userSubscriptionStatus,
+  setLoginModalOpen,
+  setHideNavBar
+}) => {
   const { id } = useParams();
   const [bookInfo, setBookInfo] = useState({});
   const [audioDuration, setAudioDuration] = useState("");
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate()
+  const [bookInLibrary, setBookInLibrary] = useState(false);
+  const [allBooksInLibrary, setAllBooksInLibrary] = useState([]);
+  const navigate = useNavigate();
 
   async function getBookInfo() {
     const { data } = await axios.get(
@@ -30,9 +44,16 @@ const Book = ({setNavActiveLink, setMobileNavOpen}) => {
   }
 
   useEffect(() => {
+    setHideNavBar(false)
     getBookInfo();
-    setNavActiveLink('book')
+    setNavActiveLink("book");
   }, []);
+
+  useEffect(() => {
+    isBookInLibrary(bookInfo?.id).then((value) => {
+      setBookInLibrary(value);
+    });
+  }, [bookInfo.id]);
 
   useEffect(() => {
     const fetchAudioDuration = async () => {
@@ -75,14 +96,16 @@ const Book = ({setNavActiveLink, setMobileNavOpen}) => {
 
   return (
     <div className="ml-[196px] max-md:ml-0 max-md:w-full w-[calc(100vw-200px)]">
-      <SearchBar setMobileNavOpen={setMobileNavOpen}/>
+      <SearchBar setMobileNavOpen={setMobileNavOpen} />
       <div className="w-full max-w-[1070px] mx-auto py-10 px-6 flex max-[1000px]:flex-col-reverse gap-4 max-[1000px]:gap-8">
         <div className="flex-1 ">
           {loading ? (
             <div className="bg-[#d4d8d9] h-[40px] w-[70%] mb-4 rounded-sm"></div>
           ) : (
             <h1 className="text-[32px] max-md:text-[24px] text-[#032b41] font-bold mb-4 leading-tight">
-              {bookInfo.title}
+              {!userSubscriptionStatus && bookInfo.subscriptionRequired
+                ? `${bookInfo.title} (Premium)`
+                : bookInfo.title}
             </h1>
           )}
           {loading ? (
@@ -141,26 +164,86 @@ const Book = ({setNavActiveLink, setMobileNavOpen}) => {
             <div className="bg-[#d4d8d9] h-[48px] w-[40%] mb-4 rounded-sm"></div>
           ) : (
             <div className="flex gap-4 mb-6">
-              <div className="bg-[#032b41] w-[144px] h-[48px] text-white flex items-center justify-center gap-2 rounded-sm cursor-pointer"
-              onClick={() => navigate(`/player/${bookInfo.id}`)}
+              {isSignedIn && !userSubscriptionStatus && bookInfo.subscriptionRequired ? (
+                <>
+                  <div
+                    className="bg-[#032b41] w-[144px] h-[48px] text-white flex items-center justify-center gap-2 rounded-sm cursor-pointer"
+                    onClick={() => navigate(`/choose-plan`)}
+                  >
+                    <IoMdBook className="text-[24px]" />
+                    <h2 className="text-[16px]">Read</h2>
+                  </div>
+                  <div
+                    className="bg-[#032b41] w-[144px] h-[48px] text-white flex items-center justify-center gap-2 rounded-sm cursor-pointer"
+                    onClick={() => navigate(`/choose-plan`)}
+                  >
+                    <TbMicrophone className="text-[24px]" />
+                    <h2 className="text-[16px]">Listen</h2>
+                  </div>
+                </>
+              ) : !isSignedIn && bookInfo.subscriptionRequired ?
+              <>
+              <div
+                className="bg-[#032b41] w-[144px] h-[48px] text-white flex items-center justify-center gap-2 rounded-sm cursor-pointer"
+                onClick={() => setLoginModalOpen(true)}
               >
                 <IoMdBook className="text-[24px]" />
                 <h2 className="text-[16px]">Read</h2>
               </div>
-              <div className="bg-[#032b41] w-[144px] h-[48px] text-white flex items-center justify-center gap-2 rounded-sm cursor-pointer"
-              onClick={() => navigate(`/player/${bookInfo.id}`)}
+              <div
+                className="bg-[#032b41] w-[144px] h-[48px] text-white flex items-center justify-center gap-2 rounded-sm cursor-pointer"
+                onClick={() => setLoginModalOpen(true)}
               >
                 <TbMicrophone className="text-[24px]" />
                 <h2 className="text-[16px]">Listen</h2>
               </div>
+            </>
+            :
+            (
+                <>
+                  <div
+                    className="bg-[#032b41] w-[144px] h-[48px] text-white flex items-center justify-center gap-2 rounded-sm cursor-pointer"
+                    onClick={() => navigate(`/player/${bookInfo.id}`)}
+                  >
+                    <IoMdBook className="text-[24px]" />
+                    <h2 className="text-[16px]">Read</h2>
+                  </div>
+                  <div
+                    className="bg-[#032b41] w-[144px] h-[48px] text-white flex items-center justify-center gap-2 rounded-sm cursor-pointer"
+                    onClick={() => navigate(`/player/${bookInfo.id}`)}
+                  >
+                    <TbMicrophone className="text-[24px]" />
+                    <h2 className="text-[16px]">Listen</h2>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
           {loading ? (
             <div className="bg-[#d4d8d9] h-[28px] w-[30%] mb-4 rounded-sm"></div>
-          ) : (
-            <div className="flex items-center text-[#0365f2] gap-2 mb-10 cursor-pointer hover:text-[#0317f2]">
+          ) : bookInLibrary ? (
+            <div
+              className="flex items-center text-[#0365f2] gap-2 mb-10 cursor-pointer hover:text-[#0317f2]"
+              onClick={() => (
+                setBookInLibrary(false), removeBookFromLibrary(bookInfo.id)
+              )}
+            >
               <FaBookmark className="text-[20px]" />
+              <h2 className="text-[18px] max-md:text-[16px] font-medium ">
+                Saved in My Library
+              </h2>
+            </div>
+          ) : (
+            <div
+              className={`flex items-center text-[#0365f2] gap-2 mb-10 cursor-pointer hover:text-[#0317f2] ${
+                !isSignedIn ? "hidden" : ""
+              }`}
+              onClick={() => (
+                setBookInLibrary(true), addBookToLibrary(bookInfo.id)
+              )}
+            >
+              <IoBookmarkOutline className="text-[24px]" />
               <h2 className="text-[18px] max-md:text-[16px] font-medium ">
                 Add title to My Library
               </h2>
@@ -176,7 +259,10 @@ const Book = ({setNavActiveLink, setMobileNavOpen}) => {
               </h2>
               <div className="flex gap-4 mb-4">
                 {bookInfo?.tags?.map((tag) => (
-                  <button className="bg-[#f1f6f4] h-[48px] text-[16px] max-md:text-[14px] text-[#032b41] font-medium leading-tight px-4 rounded-sm">
+                  <button
+                    className="bg-[#f1f6f4] h-[48px] text-[16px] max-md:text-[14px] text-[#032b41] font-medium leading-tight px-4 rounded-sm"
+                    key={tag}
+                  >
                     {tag}
                   </button>
                 ))}

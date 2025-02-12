@@ -1,20 +1,29 @@
 import React, { useEffect } from "react";
 import loginImage from "../assets/loginImage.webp";
 import SearchBar from "../components/SearchBar";
+import { useNavigate } from "react-router-dom";
 
 const Settings = ({
   setNavActiveLink,
   user,
   isSignedIn,
   setLoginModalOpen,
-  setMobileNavOpen
+  setMobileNavOpen,
+  userSubscriptionName,
+  userSubscriptionStatus,
+  setHideNavBar,
+  manageSubscription
 }) => {
+
+  const navigate = useNavigate()
   useEffect(() => {
     setNavActiveLink("settings");
+    setHideNavBar(false)
   }, []);
+
   return (
     <div className="ml-[196px] max-md:ml-0 max-md:w-full w-[calc(100vw-200px)]">
-       <SearchBar setMobileNavOpen={setMobileNavOpen}/>
+      <SearchBar setMobileNavOpen={setMobileNavOpen} />
       <div className="w-full max-w-[1070px] mx-auto px-6 flex gap-4 py-10">
         <div className="w-full">
           <h2 className="w-full text-[32px] text-[#032b41] font-bold mb-8 pb-4 leading-tight  border-b-[1px] border-[#e1e7ea]">
@@ -27,8 +36,22 @@ const Settings = ({
                   Your Subscription plan
                 </h1>
                 <h2 className=" text-[16px] text-[#032b41] leading-tight">
-                  premium-plus
+                  {userSubscriptionName === "sub_1QrUIpI3MRe4FcEwljDWGFlS"
+                    ? "Premium "
+                    : userSubscriptionName === "sub_1QrTd3I3MRe4FcEwo5CSuMzf"
+                    ? "Premium Plus"
+                    : "Basic"}
                 </h2>
+
+                {userSubscriptionStatus ? 
+                <></>
+                  : (
+                  <button className="w-[200px] h-[40px] bg-[#2bd97c] text-[#032b41] rounded-[4px] hover:bg-[#20ba68] cursor-pointer duration-200"
+                  onClick={() => navigate('/choose-plan')}
+                  >
+                    Upgrade to Premium
+                  </button>
+                )}
               </div>
               <div className="flex flex-col gap-2 pb-6 mb-8">
                 <h1 className=" text-[18px] text-[#032b41] font-bold leading-tight">

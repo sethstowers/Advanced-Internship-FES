@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaRegClock, FaRegStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const BookCard = ({ book, isSignedIn }) => {
+const BookCard = ({ book, userSubscriptionStatus }) => {
   const navigate = useNavigate();
   const [audioDuration, setAudioDuration] = useState("");
 
@@ -49,7 +49,7 @@ const BookCard = ({ book, isSignedIn }) => {
       <div
         className={`absolute top-0 right-0 bg-[#032b41] px-2 py-0.5 rounded-full flex justify-center text-white text-[10px] 
                         ${
-                          !isSignedIn && book.subscriptionRequired
+                          !userSubscriptionStatus && book.subscriptionRequired
                             ? ""
                             : "hidden"
                         }`}
@@ -57,7 +57,7 @@ const BookCard = ({ book, isSignedIn }) => {
         Premium
       </div>
       <div
-        className="px-3 pt-8 pb-3 min-w-[190px] h-full hover:bg-gray-100 cursor-pointer"
+        className="px-3 pt-8 pb-3 w-[190px] h-full hover:bg-gray-100 cursor-pointer"
         key={book.title}
         onClick={() => navigate(`/book/${book.id}`)}
       >
